@@ -21,7 +21,8 @@ class User < ApplicationRecord
   validates :email, uniqueness: true
 
   enum gender: { male: 0, female: 1, other: 2 }
-  
+  after_initialize :set_default_gender, if: :new_record?
+
   scope :allowing_created_event_notification,
         -> { joins(:notification_timings).merge(NotificationTiming.created_event) }
   scope :allowing_commented_to_event_notification,
@@ -77,5 +78,11 @@ class User < ApplicationRecord
 
   def allow_liked_event_notification?
     notification_timings.liked_event.present?
+  end
+
+  private
+
+  def set_default_gender
+    self.gender ||= :other
   end
 end
