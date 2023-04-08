@@ -20,7 +20,7 @@ class User < ApplicationRecord
 
   validates :email, uniqueness: true
 
-  enum gender: { male: 0, female: 1, other: 2 }
+  enum gender: { man: 0, woman: 1, other: 2 }
   after_initialize :set_default_gender, if: :new_record?
 
   scope :allowing_created_event_notification,
@@ -82,7 +82,7 @@ class User < ApplicationRecord
 
   def can_join?(event)
     if event.only_woman?
-      female?
+      woman?
     else
       true
     end
