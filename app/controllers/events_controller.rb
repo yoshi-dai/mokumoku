@@ -42,6 +42,11 @@ class EventsController < ApplicationController
 
   def show
     @event = Event.find(params[:id])
+    if current_user&.can_join?(@event)
+      @join_button = true
+    else
+      @join_button = false
+    end
   end
 
   def edit
@@ -60,6 +65,6 @@ class EventsController < ApplicationController
   private
 
   def event_params
-    params.require(:event).permit(:title, :content, :held_at, :prefecture_id, :thumbnail)
+    params.require(:event).permit(:title, :content, :held_at, :prefecture_id, :thumbnail, :only_woman)
   end
 end

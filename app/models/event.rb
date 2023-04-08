@@ -27,4 +27,8 @@ class Event < ApplicationRecord
   def future?
     !past?
   end
+
+  def open_to_both_genders?
+    !only_woman?
+  end
 end
