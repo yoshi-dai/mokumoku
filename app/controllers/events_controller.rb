@@ -29,6 +29,7 @@ class EventsController < ApplicationController
 
   def create
     @event = current_user.events.build(event_params)
+    binding.irb
     if @event.save
       User.all.find_each do |user|
         NotificationFacade.created_event(@event, user)
@@ -42,6 +43,11 @@ class EventsController < ApplicationController
 
   def show
     @event = Event.find(params[:id])
+    if current_user&.can_join?(@event)
+      @join_button = true
+    else
+      @join_button = false
+    end
   end
 
   def edit

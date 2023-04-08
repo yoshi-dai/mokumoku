@@ -80,6 +80,14 @@ class User < ApplicationRecord
     notification_timings.liked_event.present?
   end
 
+  def can_join?(event)
+    if event.only_woman?
+      female?
+    else
+      true
+    end
+  end
+
   private
 
   def set_default_gender
